@@ -1,0 +1,16 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{C2199ABF-4C9C-33ED-C8EA-A68B64B1EB88}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "InsideBlueprint",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	]
+}

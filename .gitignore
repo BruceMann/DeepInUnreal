@@ -1,0 +1,9 @@
+/.vs/
+/DerivedDataCache/
+/Intermediate/
+/Plugins/
+/Saved/
+/Binaries/
+InsideBlueprint.sln
+!.gitignore.txt
+!InsideBlueprint.uproject
