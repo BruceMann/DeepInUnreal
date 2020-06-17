@@ -3,7 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MyActor.generated.h"
+//#include "MyActor.generated.h"
 
 #ifdef MYTEST 
 //Ω‚ŒˆMyActor 
@@ -43,8 +43,7 @@ private:
     NO_API static UClass* GetPrivateStaticClass();
 public: 
 	/** Bitwise union of #EClassFlags pertaining to this class.*/ 
-        enum {
-        StaticClassFlags = COMPILED_IN_FLAGS(0 | CLASS_Config)}; 
+        enum {StaticClassFlags = COMPILED_IN_FLAGS(0 | CLASS_Config)}; 
 	/** Typedef for the base class ({{ typedef-type }}) */ 
 	typedef AActor Super;
 	/** Typedef for {{ typedef-type }}. */ 
@@ -65,7 +64,7 @@ public:
 		return CASTCLASS_None;
 	} 
 	/** For internal use only; use StaticConstructObject() to create new objects. */ 
-	inline void* operator new(const size_t InSize, EInternal InInternalOnly, UObject* InOuter = (UObject*)GetTransientPackage(), FName InName = NAME_None, EObjectFlags InSetFlags = RF_NoFlags) \
+	inline void* operator new(const size_t InSize, EInternal InInternalOnly, UObject* InOuter = (UObject*)GetTransientPackage(), FName InName = NAME_None, EObjectFlags InSetFlags = RF_NoFlags) 
 	{ 
 		return StaticAllocateObject(StaticClass(), InOuter, InName, InSetFlags); 
 	} 
@@ -79,7 +78,7 @@ public:
 
    // DECLARE_SERIALIZER(AMyActor)		
 #pragma region DECLARE_SERIALIZER
-#define DECLARE_SERIALIZER( AMyActor ) 
+//#define DECLARE_SERIALIZER( AMyActor ) 
 	friend FArchive &operator<<( FArchive& Ar, AMyActor*& Res ) 
 	{ 
 		return Ar << (UObject*&)Res; 
@@ -90,18 +89,26 @@ public:
 	}
 #pragma endregion
 
-
-
-
-
-
     //4.2----> InsideBlueprint_Source_InsideBlueprint_MyActor_h_12_STANDARD_CONSTRUCTORS
 
     /** Standard constructor, called after all reflected properties have been initialized */ 
         NO_API AMyActor(const FObjectInitializer& ObjectInitializer); 
-        DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(AMyActor) 
-        DECLARE_VTABLE_PTR_HELPER_CTOR(NO_API, AMyActor); 
-    DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(AMyActor); 
+        //DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(AMyActor) 
+#pragma region DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL
+            static void __DefaultConstructor(const FObjectInitializer& X) { new((EInternal*)X.GetObj())AMyActor(X); }
+#pragma endregion
+
+        //DECLARE_VTABLE_PTR_HELPER_CTOR(NO_API, AMyActor);       
+#pragma region DECLARE_VTABLE_PTR_HELPER_CTOR
+        /** DO NOT USE. This constructor is for internal usage only for hot-reload purposes. */ 
+        NO_API AMyActor(FVTableHelper& Helper);
+#pragma endregion
+
+       // DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(AMyActor); 
+        static UObject* __VTableCtorCaller(FVTableHelper& Helper) 
+        { 
+            return new (EC_InternalUseOnlyConstructor, (UObject*)GetTransientPackage(), NAME_None, RF_NeedLoad | RF_ClassDefaultObject | RF_TagGarbageTemp) AMyActor(Helper); \
+        }
 private: 
         /** Private move- and copy-constructors, should never be used */ 
         NO_API AMyActor(AMyActor&&); 
